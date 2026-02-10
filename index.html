@@ -71,10 +71,34 @@
       }
     }
 
+    @keyframes pulse-glow {
+
+      0%,
+      100% {
+        box-shadow: 0 0 30px rgba(168, 85, 247, 0.4);
+      }
+
+      50% {
+        box-shadow: 0 0 50px rgba(236, 72, 153, 0.6);
+      }
+    }
+
+    @keyframes float-card {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
     .container {
       position: relative;
       z-index: 10;
-      max-width: 1200px;
+      max-width: 1400px;
       width: 100%;
     }
 
@@ -85,7 +109,7 @@
     }
 
     .header h1 {
-      font-size: 4rem;
+      font-size: 3.5rem;
       font-weight: bold;
       color: white;
       text-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
@@ -93,38 +117,58 @@
     }
 
     .header p {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       color: rgba(255, 255, 255, 0.9);
       font-weight: 600;
+    }
+
+    .cards-container {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 32px;
     }
 
     .birthday-card {
       background: white;
       border-radius: 24px;
       box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
-      padding: 48px;
-      transition: all 0.7s ease;
+      padding: 36px;
+      animation: float-card 3s ease-in-out infinite;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .birthday-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 6px;
+      background: linear-gradient(90deg, #9333ea, #ec4899, #fb923c);
     }
 
     .birthday-card:hover {
-      transform: scale(1.05);
+      transform: translateY(-12px) scale(1.02);
+      box-shadow: 0 35px 60px rgba(0, 0, 0, 0.4);
     }
 
-    .birthday-card.transitioning {
-      opacity: 0;
-      transform: scale(0.95);
+    .birthday-card:nth-child(2) {
+      animation-delay: 0.5s;
     }
 
     .card-content {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
+      display: flex;
+      flex-direction: column;
       align-items: center;
+      text-align: center;
     }
 
     .image-section {
       display: flex;
       justify-content: center;
+      margin-bottom: 24px;
     }
 
     .image-wrapper {
@@ -133,88 +177,71 @@
 
     .image-glow {
       position: absolute;
-      inset: 0;
+      inset: -10px;
       background: linear-gradient(135deg, #f472b6, #a855f7);
       border-radius: 50%;
-      filter: blur(40px);
+      filter: blur(30px);
       opacity: 0.5;
-      animation: pulse 2s ease-in-out infinite;
-    }
-
-    @keyframes pulse {
-
-      0%,
-      100% {
-        opacity: 0.5;
-      }
-
-      50% {
-        opacity: 0.7;
-      }
+      animation: pulse-glow 2s ease-in-out infinite;
     }
 
     .profile-image {
       position: relative;
-      width: 256px;
-      height: 256px;
+      width: 200px;
+      height: 200px;
       border-radius: 50%;
       object-fit: cover;
-      border: 8px solid white;
+      border: 6px solid white;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      transition: all 0.7s ease;
+      transition: all 0.3s ease;
     }
 
-    .profile-image.transitioning {
-      transform: scale(0.75) rotate(12deg);
-      opacity: 0;
+    .birthday-card:hover .profile-image {
+      transform: scale(1.1);
+      border-color: #fbcfe8;
     }
 
     .cake-icon {
       position: absolute;
-      top: -16px;
-      right: -16px;
-      background: #facc15;
+      top: -12px;
+      right: -12px;
+      background: linear-gradient(135deg, #facc15, #f97316);
       border-radius: 50%;
-      padding: 16px;
+      padding: 12px;
       animation: spin-slow 10s linear infinite;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
     }
 
     .info-section {
-      text-align: left;
+      width: 100%;
     }
 
     .person-name {
-      font-size: 3rem;
+      font-size: 1.75rem;
       font-weight: bold;
       background: linear-gradient(135deg, #9333ea, #ec4899);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      margin-bottom: 24px;
-      transition: all 0.7s ease;
-    }
-
-    .person-name.transitioning {
-      transform: translateX(40px);
-      opacity: 0;
+      margin-bottom: 16px;
     }
 
     .info-details {
-      margin-bottom: 24px;
-      transition: all 0.7s ease 0.1s;
-    }
-
-    .info-details.transitioning {
-      transform: translateX(40px);
-      opacity: 0;
+      margin-bottom: 20px;
     }
 
     .info-item {
       display: flex;
       align-items: center;
-      gap: 12px;
-      font-size: 1.125rem;
-      margin-bottom: 12px;
+      justify-content: center;
+      gap: 10px;
+      font-size: 1rem;
+      margin-bottom: 10px;
+      color: #4b5563;
+    }
+
+    .info-item svg {
+      flex-shrink: 0;
     }
 
     .info-item span {
@@ -224,56 +251,25 @@
 
     .greeting-box {
       background: linear-gradient(135deg, #e9d5ff, #fbcfe8);
-      padding: 24px;
+      padding: 20px;
       border-radius: 16px;
-      transition: all 0.7s ease 0.2s;
-    }
-
-    .greeting-box.transitioning {
-      transform: translateY(40px);
-      opacity: 0;
     }
 
     .greeting-box h3 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       font-weight: bold;
       color: #6b21a8;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
     .greeting-box p {
       color: #374151;
-    }
-
-    .slide-indicators {
-      display: flex;
-      justify-content: center;
-      gap: 8px;
-      margin-top: 32px;
-    }
-
-    .indicator {
-      width: 12px;
-      height: 12px;
-      border-radius: 50%;
-      background: #d1d5db;
-      border: none;
-      cursor: pointer;
-      transition: all 0.5s ease;
-    }
-
-    .indicator:hover {
-      background: #9ca3af;
-    }
-
-    .indicator.active {
-      width: 12px;
-      background: #9333ea;
+      font-size: 0.95rem;
     }
 
     .footer {
       text-align: center;
-      margin-top: 32px;
+      margin-top: 40px;
     }
 
     .footer p {
@@ -283,34 +279,71 @@
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
     }
 
-    @media (max-width: 768px) {
-      .header h1 {
-        font-size: 2.5rem;
-      }
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: fall linear forwards;
+      pointer-events: none;
+      z-index: 1000;
+    }
 
-      .header p {
-        font-size: 1.25rem;
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(720deg);
       }
+    }
 
-      .birthday-card {
-        padding: 32px 24px;
-      }
-
-      .card-content {
+    @media (max-width: 1024px) {
+      .cards-container {
         grid-template-columns: 1fr;
         gap: 24px;
       }
 
-      .info-section {
-        text-align: center;
+      .header h1 {
+        font-size: 2.5rem;
+      }
+
+      .profile-image {
+        width: 160px;
+        height: 160px;
       }
 
       .person-name {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .header h1 {
         font-size: 2rem;
       }
 
-      .info-item {
-        justify-content: center;
+      .header p {
+        font-size: 1rem;
+      }
+
+      .birthday-card {
+        padding: 24px 20px;
+      }
+
+      .profile-image {
+        width: 140px;
+        height: 140px;
+      }
+
+      .person-name {
+        font-size: 1.25rem;
+      }
+
+      .cake-icon {
+        padding: 10px;
+      }
+
+      .cake-icon svg {
+        width: 20px;
+        height: 20px;
       }
     }
   </style>
@@ -321,66 +354,12 @@
 
   <div class="container">
     <div class="header">
-      <h1>🎉 Chúc mừng sinh nhật 🎉</h1>
+      <h1>🎉 Tháng 2 - Chúc Mừng Sinh Nhật 🎉</h1>
       <p>Mong rằng hôm nay và trong tương lai, những bước chân của bạn luôn nhẹ nhàng và hạnh phúc.</p>
     </div>
 
-    <div class="birthday-card" id="birthdayCard">
-      <div class="card-content">
-        <div class="image-section">
-          <div class="image-wrapper">
-            <div class="image-glow"></div>
-            <img id="profileImage" class="profile-image" src="" alt="Profile">
-            <div class="cake-icon">
-              <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
-                <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
-                <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
-                <path d="M2 21h20"></path>
-                <path d="M7 8v3"></path>
-                <path d="M12 8v3"></path>
-                <path d="M17 8v3"></path>
-                <path d="M7 4h.01"></path>
-                <path d="M12 4h.01"></path>
-                <path d="M17 4h.01"></path>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-        <div class="info-section">
-          <h2 class="person-name" id="personName"></h2>
-
-          <div class="info-details" id="infoDetails">
-            <div class="info-item">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                <line x1="16" y1="2" x2="16" y2="6"></line>
-                <line x1="8" y1="2" x2="8" y2="6"></line>
-                <line x1="3" y1="10" x2="21" y2="10"></line>
-              </svg>
-              <span>Ngày sinh: <span id="birthDate"></span></span>
-            </div>
-
-            <div class="info-item">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2">
-                <polyline points="20 12 20 22 4 22 4 12"></polyline>
-                <rect x="2" y="7" width="20" height="5"></rect>
-                <line x1="12" y1="22" x2="12" y2="7"></line>
-                <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
-                <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
-              </svg>
-              <span id="department"></span>
-            </div>
-          </div>
-
-          <div class="greeting-box" id="greetingBox">
-            <h3>Chúc mừng sinh nhật! 🎂</h3>
-            <p>Chúc tuổi mới nhiều sức khỏe, hạnh phúc và thành công rực rỡ!</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="slide-indicators" id="indicators"></div>
+    <div class="cards-container" id="cardsContainer">
+      <!-- Cards sẽ được tạo bằng JavaScript -->
     </div>
 
     <div class="footer">
@@ -392,7 +371,7 @@
     var birthdays = [
       {
         name: "Nguyễn Thị Hà Trang",
-        department: "CV PTSP",
+        department: "Phòng CV PTSP",
         date: "14/02",
         image: "images/trang.png"
       },
@@ -404,15 +383,13 @@
       },
     ];
 
-    var currentSlide = 0;
-    var isTransitioning = false;
-
+    // Tạo background icons
     var backgroundEl = document.getElementById('backgroundElements');
-    var icons = ['🎂', '🎁', '⭐'];
-    for (var i = 0; i < 20; i++) {
+    var icons = ['🎂', '🎁', '⭐', '🎈', '🎊'];
+    for (var i = 0; i < 25; i++) {
       var div = document.createElement('div');
       div.className = 'float-icon';
-      div.textContent = icons[i % 3];
+      div.textContent = icons[i % icons.length];
       div.style.left = Math.random() * 100 + '%';
       div.style.top = Math.random() * 100 + '%';
       div.style.fontSize = (20 + Math.random() * 30) + 'px';
@@ -421,68 +398,92 @@
       backgroundEl.appendChild(div);
     }
 
-    var indicatorsEl = document.getElementById('indicators');
+    // Tạo cards cho từng người
+    function createCard(person, index) {
+      var card = document.createElement('div');
+      card.className = 'birthday-card';
+      card.innerHTML = `
+        <div class="card-content">
+          <div class="image-section">
+            <div class="image-wrapper">
+              <div class="image-glow"></div>
+              <img class="profile-image" src="${person.image}" alt="${person.name}">
+              <div class="cake-icon">
+                <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                  <path d="M20 21v-8a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8"></path>
+                  <path d="M4 16s.5-1 2-1 2.5 2 4 2 2.5-2 4-2 2.5 2 4 2 2-1 2-1"></path>
+                  <path d="M2 21h20"></path>
+                  <path d="M7 8v3"></path>
+                  <path d="M12 8v3"></path>
+                  <path d="M17 8v3"></path>
+                  <path d="M7 4h.01"></path>
+                  <path d="M12 4h.01"></path>
+                  <path d="M17 4h.01"></path>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <div class="info-section">
+            <h2 class="person-name">${person.name}</h2>
+
+            <div class="info-details">
+              <div class="info-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#9333ea" stroke-width="2">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+                <span>${person.date}</span>
+              </div>
+
+              <div class="info-item">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ec4899" stroke-width="2">
+                  <polyline points="20 12 20 22 4 22 4 12"></polyline>
+                  <rect x="2" y="7" width="20" height="5"></rect>
+                  <line x1="12" y1="22" x2="12" y2="7"></line>
+                  <path d="M12 7H7.5a2.5 2.5 0 0 1 0-5C11 2 12 7 12 7z"></path>
+                  <path d="M12 7h4.5a2.5 2.5 0 0 0 0-5C13 2 12 7 12 7z"></path>
+                </svg>
+                <span>${person.department}</span>
+              </div>
+            </div>
+
+            <div class="greeting-box">
+              <h3>Chúc mừng sinh nhật! 🎂</h3>
+              <p>Chúc tuổi mới nhiều sức khỏe, hạnh phúc và thành công rực rỡ!</p>
+            </div>
+          </div>
+        </div>
+      `;
+      return card;
+    }
+
+    // Render tất cả cards
+    var cardsContainer = document.getElementById('cardsContainer');
     for (var j = 0; j < birthdays.length; j++) {
-      var btn = document.createElement('button');
-      btn.className = 'indicator';
-      if (j === 0) btn.classList.add('active');
-      btn.setAttribute('data-index', j);
-      btn.onclick = function () {
-        var idx = parseInt(this.getAttribute('data-index'));
-        goToSlide(idx);
-      };
-      indicatorsEl.appendChild(btn);
+      cardsContainer.appendChild(createCard(birthdays[j], j));
     }
 
-    function updateContent() {
-      var person = birthdays[currentSlide];
-      document.getElementById('personName').textContent = person.name;
-      document.getElementById('birthDate').textContent = person.date;
-      document.getElementById('department').textContent = person.department;
-      document.getElementById('profileImage').src = person.image;
-      document.getElementById('profileImage').alt = person.name;
-
-      var indicators = document.querySelectorAll('.indicator');
-      for (var k = 0; k < indicators.length; k++) {
-        if (k === currentSlide) {
-          indicators[k].classList.add('active');
-        } else {
-          indicators[k].classList.remove('active');
-        }
-      }
-    }
-
-    function goToSlide(index) {
-      if (index === currentSlide || isTransitioning) return;
-
-      isTransitioning = true;
-
-      document.getElementById('birthdayCard').classList.add('transitioning');
-      document.getElementById('profileImage').classList.add('transitioning');
-      document.getElementById('personName').classList.add('transitioning');
-      document.getElementById('infoDetails').classList.add('transitioning');
-      document.getElementById('greetingBox').classList.add('transitioning');
+    // Hiệu ứng confetti
+    function createConfetti() {
+      var colors = ['#9333ea', '#ec4899', '#fb923c', '#facc15', '#22c55e', '#3b82f6'];
+      var confetti = document.createElement('div');
+      confetti.className = 'confetti';
+      confetti.style.left = Math.random() * 100 + 'vw';
+      confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+      confetti.style.animationDuration = (3 + Math.random() * 4) + 's';
+      confetti.style.borderRadius = Math.random() > 0.5 ? '50%' : '0';
+      document.body.appendChild(confetti);
 
       setTimeout(function () {
-        currentSlide = index;
-        updateContent();
-
-        document.getElementById('birthdayCard').classList.remove('transitioning');
-        document.getElementById('profileImage').classList.remove('transitioning');
-        document.getElementById('personName').classList.remove('transitioning');
-        document.getElementById('infoDetails').classList.remove('transitioning');
-        document.getElementById('greetingBox').classList.remove('transitioning');
-
-        isTransitioning = false;
-      }, 300);
+        confetti.remove();
+      }, 7000);
     }
 
-    setInterval(function () {
-      var nextSlide = (currentSlide + 1) % birthdays.length;
-      goToSlide(nextSlide);
-    }, 5000);
-
-    updateContent();
+    // Tạo confetti thường xuyên
+    setInterval(createConfetti, 300);
   </script>
 
   <!-- YouTube Background Music - Hidden -->
